@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -44,7 +43,10 @@ const SignUp = () => {
           to use Ultigram enter your details
         </p>
 
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5 w-full mt-4">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-5 w-full mt-4"
+        >
           <FormField
             control={form.control}
             name="firstName"
@@ -52,7 +54,12 @@ const SignUp = () => {
               <FormItem>
                 <FormLabel>Fisrt Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter your first name ..." {...field} />
+                  <Input
+                    placeholder="Enter your first name ..."
+                    {...field}
+                    className="shad-input"
+                    type="text"
+                  />
                 </FormControl>
 
                 <FormMessage />
@@ -66,7 +73,12 @@ const SignUp = () => {
               <FormItem>
                 <FormLabel>Last Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter your last name ..." {...field} />
+                  <Input
+                    placeholder="Enter your last name ..."
+                    {...field}
+                    className="shad-input"
+                    type="text"
+                  />
                 </FormControl>
 
                 <FormMessage />
@@ -80,11 +92,14 @@ const SignUp = () => {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder="User Name ..." {...field} />
+                  <Input
+                    placeholder="User Name ..."
+                    {...field}
+                    className="shad-input"
+                    type="text"
+                  />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
+
                 <FormMessage />
               </FormItem>
             )}
@@ -99,6 +114,8 @@ const SignUp = () => {
                   <Input
                     placeholder="Enter your email address ..."
                     {...field}
+                    className="shad-input"
+                    type="email"
                   />
                 </FormControl>
 
@@ -113,16 +130,19 @@ const SignUp = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="Password ..." {...field} />
+                  <Input
+                    placeholder="Password ..."
+                    {...field}
+                    className="shad-input"
+                    type="password"
+                  />
                 </FormControl>
-                <FormDescription>
-                  Password must be contain one of special characters !@#$%^&*
-                </FormDescription>
+
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit" variant={"outline"}>
+          <Button type="submit"  className="shad-button_primary">
             Submit
           </Button>
         </form>

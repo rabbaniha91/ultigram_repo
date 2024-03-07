@@ -13,8 +13,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import Loader from "@/components/shared/Loader";
 
 const SignUp = () => {
+  const isLoading = true;
   // 1. Define your form.
   const form = useForm<z.infer<typeof signUpValidateSchema>>({
     resolver: zodResolver(signUpValidateSchema),
@@ -142,8 +144,14 @@ const SignUp = () => {
               </FormItem>
             )}
           />
-          <Button type="submit"  className="shad-button_primary">
-            Submit
+          <Button type="submit" className="shad-button_primary">
+            {isLoading ? (
+              <>
+                <Loader />
+              </>
+            ) : (
+              <>Signup</>
+            )}
           </Button>
         </form>
       </div>

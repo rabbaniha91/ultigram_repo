@@ -15,21 +15,32 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Loader from "@/components/shared/Loader";
-import { Link } from "react-router-dom";
-import { createNewAccount } from "@/lib/appwrite/api";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ToastAction } from "@/components/ui/toast";
+import {
+  useCreateUserAccount,
+  useSigninAccount,
+} from "@/lib/react-query/queries";
+import { useUserContext } from "@/context/AuthContext";
 
 const SignUp = () => {
-  const isLoading = false;
+  const navigate = useNavigate();
+  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
   const { toast } = useToast();
   const [showToast, setShowToast] = useState(false);
+
+  // queries
+  const { mutateAsync: createNewAccount, isPending: isCreatingAccount } =
+    useCreateUserAccount();
+  const { mutateAsync: signInAcount, isPending: isSigningIn } =
+    useSigninAccount();
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof signUpValidateSchema>>({
     resolver: zodResolver(signUpValidateSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      name: "",
       userName: "",
       email: "",
       password: "",
@@ -39,7 +50,25 @@ const SignUp = () => {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof signUpValidateSchema>) {
     const newUser = await createNewAccount(values);
+
     if (!newUser) setShowToast(true);
+
+    const session = await signInAcount({
+      email: values.email,
+      password: values.password,
+    });
+
+    if (!session) setShowToast(true);
+
+    const isLogin = await checkAuthUser();
+
+    if (isLogin) {
+      form.reset();
+      navigate("/");
+    } else {
+      setShowToast(true);
+      return;
+    }
   }
   return (
     <>
@@ -80,13 +109,13 @@ const SignUp = () => {
           >
             <FormField
               control={form.control}
-              name="firstName"
+              name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Fisrt Name</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Enter your first name ..."
+                      placeholder="Enter your full name ..."
                       {...field}
                       className="shad-input"
                       type="text"
@@ -97,25 +126,7 @@ const SignUp = () => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="lastName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Last Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter your last name ..."
-                      {...field}
-                      className="shad-input"
-                      type="text"
-                    />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+           
             <FormField
               control={form.control}
               name="userName"
@@ -174,7 +185,7 @@ const SignUp = () => {
               )}
             />
             <Button type="submit" className="shad-button_primary">
-              {isLoading ? (
+              {isCreatingAccount ? (
                 <>
                   <Loader />
                 </>

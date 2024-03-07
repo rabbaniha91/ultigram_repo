@@ -14,9 +14,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Loader from "@/components/shared/Loader";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
-  const isLoading = true;
+  const isLoading = false;
   // 1. Define your form.
   const form = useForm<z.infer<typeof signUpValidateSchema>>({
     resolver: zodResolver(signUpValidateSchema),
@@ -153,6 +154,15 @@ const SignUp = () => {
               <>Signup</>
             )}
           </Button>
+          <p className="text-small-regular text-light-2 text-center mt-2">
+            Already have an account?
+            <Link
+              to={"/sign-in"}
+              className="text-primary-500 text-small-semibold ml-1"
+            >
+              Login
+            </Link>
+          </p>
         </form>
       </div>
     </Form>

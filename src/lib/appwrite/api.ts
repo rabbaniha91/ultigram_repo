@@ -1,12 +1,12 @@
 import { ID } from "appwrite";
 import { InewUser } from "@/types";
 import { account, appwriteConfig, avatars, databases } from "./config";
-import App from "@/App";
 
 // user Authenticate
 
 export const createNewAccount = async (user: InewUser) => {
   try {
+    console.log("first")
     const newAccount = await account.create(
       ID.unique(),
       user.email,
@@ -14,6 +14,7 @@ export const createNewAccount = async (user: InewUser) => {
       user.userName
     );
 
+    console.log(newAccount)
     if (!newAccount) throw Error;
 
     const avatarUrl = avatars.getInitials(user.userName);

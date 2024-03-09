@@ -6,13 +6,11 @@ import AuthContextProvider from "./context/AuthContext.tsx";
 import QueryProvider from "./lib/react-query/QueryProvider.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <QueryProvider>
-        <AuthContextProvider>
-          <App />
-        </AuthContextProvider>
-      </QueryProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+  <BrowserRouter>
+    <QueryProvider>
+      <AuthContextProvider>
+        <App />
+      </AuthContextProvider>
+    </QueryProvider>
+  </BrowserRouter>
 );

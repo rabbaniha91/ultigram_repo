@@ -40,7 +40,7 @@ export type IUpdateUser = {
 };
 
 export type INewPost = {
-  userId: string;
+  userId: string | undefined;
   caption: string;
   file: File[];
   location?: string;

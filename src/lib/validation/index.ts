@@ -10,3 +10,10 @@ export const signInValidateSchema = z.object({
   email: z.string().email({ message: "Please enter the valid email address" }),
   password: z.string(),
 });
+
+export const uploadPostSchema = z.object({
+  caption: z.string().min(5).max(2200),
+  file: z.custom<File[]>(),
+  location: z.string().min(2).max(100),
+  tags: z.string(),
+});
